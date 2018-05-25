@@ -21,6 +21,10 @@ Be sure that you have:
 <h4 class="info">Note</h4>
 <p>When creating an AWS account, you will have to enter credit card information. This is required, but you will not be charged unless you exceed the usage limits of their free tier.</p></div>
 
+--
+@todo probably remove all of this S3 setup info — we should probably link to AWS docs for this.
+--
+
 ## Configure S3 within the AWS Console
 Before integrating S3 with your site, you'll need to configure the service within your [AWS Management Console](https://console.aws.amazon.com){.external}.
 
@@ -75,17 +79,46 @@ We recommend that you do not access an S3 bucket using your AWS root user creden
 ## Integrate S3 with WordPress 
 You will need to install a plugin such as [S3 Uploads](https://github.com/humanmade/S3-Uploads){.external} or [WP Offload S3](https://deliciousbrains.com/wp-offload-s3/){.external}.
 
-WP Offload S3 requires a paid license but is configurable in the WordPress admin UI and offers a number of options and features. S3 Uploads is open-source but does not include an admin UI and requires [WP-CLI](/docs/wp-cli) for setup and migration.
+WP Offload S3 requires a paid license but is configurable in the WordPress admin UI and offers a number of options and features. S3 Uploads is open-source but does not include an admin UI and requires [Terminus](/docs/terminus) and [WP-CLI](/docs/wp-cli) for setup and migration.
 
 ### Install and Deploy WP Offload S3
-- Add plugin from Github *not* as a submodule (https://pantheon.io/docs/git-faq/#does-pantheon-support-git-submodules).
-- Add credentials to wp-config with Terminus secrets plugin (see https://pantheon.io/docs/guides/asana/ -- "Securely Store User Credentials on Pantheon")
-- Activate plugin
-- Verify setup
-- Create user
-- Migrate existing media
-- Cache control
+
+@todo note: plugin conflicts with Solr-Power, like this: https://github.com/humanmade/S3-Uploads/issues/80
+
+1. Download the latest plugin release from [Github]((https://github.com/humanmade/S3-Uploads/releases) and add it to your codebase. Note that our documentation has been tested for version 2.0.0.
+
+Do not add the plugin as a Git submodule. Git submodules are not supported on the platform ([more info]((https://pantheon.io/docs/git-faq/#does-pantheon-support-git-submodules)).
+
+2. Copy your S3 uploads key and secret from the "My security credentials" section of your AWS account.
+
+3. Add credentials to wp-config.php. For security reasons, it is recommended to use a service like [Lockr](https://pantheon.io/docs/guides/lockr/) or the [Terminus Secrets plugin](https://github.com/pantheon-systems/terminus-secrets-plugin) to store and retrieve these credentials securely.
+
+4. Deploy the new plugin and your wp-config.php to the Dev environment, then activate the plugin.
+
+[terminus wp <site>.<env> plugin activate S3-Uploads]
+
+5. Use WP-CLI to verify your AWS setup.
+
+[terminus wp <site>.<env> s3-uploads verify]
+
+6. Use WP-CLI to create a new AWS user for the site.
+
+[terminus wp <site>.<env> -- s3-uploads create-iam-user --admin-key=<key> --admin-secret=<secret>]
+
+@todo fail: https://github.com/humanmade/S3-Uploads/issues/95
+@todo more fail: "Error: Cannot read credentials from /srv/bindings/fa723f3bf2e54b26adf141ea25feb45b/.aws/credentials"
+
+#### Use WP-CLI to list and upload files
+@todo test/adapt https://github.com/humanmade/S3-Uploads#listing-files-on-s3
+@todo test/adapt https://github.com/humanmade/S3-Uploads#uploading-files-to-s3
+
+#### Migrate existing media using WP Offload S3
+@todo test/adapt https://github.com/humanmade/S3-Uploads#migrating-your-media-to-s3
+
+#### Cache control
+@todo test/adapt https://github.com/humanmade/S3-Uploads#cache-control
 
 ### Install and Deploy S3 Uploads
-@todo
-https://deliciousbrains.com/wp-offload-s3/doc/quick-start-guide/
+Follow documentation from [DeliciousBrains](https://deliciousbrains.com/wp-offload-s3/doc/quick-start-guide).
+@todo test this one too
+

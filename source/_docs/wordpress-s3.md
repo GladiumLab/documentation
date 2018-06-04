@@ -5,7 +5,7 @@ tags: [siteintegrations]
 categories: [wordpress]
 contributors:
   - sarahg
-date: 3/27/2018
+date: 6/4/2018
 ---
 
 Amazon Web Services (AWS) offers Simple Storage Service (S3) for scalable storage and content distribution, which can be integrated with sites running on Pantheon.
@@ -45,9 +45,9 @@ You will need to install a plugin such as [S3 Uploads](https://github.com/humanm
 
 WP Offload S3 requires a paid license but is configurable in the WordPress admin UI and offers a number of options and features. S3 Uploads is open-source but does not include an admin UI and requires [Terminus](/docs/terminus) and [WP-CLI](/docs/wp-cli) for setup and migration.
 
-### Install and Deploy WP Offload S3
+### Install and Deploy S3 Uploads
 
-@todo note: plugin conflicts with Solr-Power, like this: https://github.com/humanmade/S3-Uploads/issues/80
+Note: this plugin currently conflicts with [Solr Power](https://wordpress.org/plugins/solr-power/), our recommended plugin for Solr integration. [More info](https://github.com/humanmade/S3-Uploads/issues/80).
 
 1. Download the latest plugin release from [Github]((https://github.com/humanmade/S3-Uploads/releases) and add it to your codebase. Note that our documentation has been tested for version 2.0.0.
 
@@ -82,10 +82,8 @@ Optionally, add the `--delete-local` flag to remove the local copies of the medi
 
 Upon succesful migration, this command will also run a search/replace on your database to update references to the newly-migrated files. Note that you will need to run this on all Pantheon environments (dev/test/live).
 
-#### Cache control
-@todo test/adapt https://github.com/humanmade/S3-Uploads#cache-control
+#### Further configuration
+Check out the plugin's [README file](https://github.com/humanmade/S3-Uploads/blob/master/README.md) for information on advanced configuration, such as cache control, URL rewriting and offline development.
 
-### Install and Deploy S3 Uploads
-Follow documentation from [DeliciousBrains](https://deliciousbrains.com/wp-offload-s3/doc/quick-start-guide).
-@todo test this one too
-
+### Install and Deploy WP Offload S3 
+Follow documentation from [DeliciousBrains](https://deliciousbrains.com/wp-offload-s3/doc/quick-start-guide). No specialized configuration is required for this plugin to run on Pantheon.

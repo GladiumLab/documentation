@@ -29,12 +29,12 @@ If you do not have an existing bucket for your site, create one:
 
 1. From your [AWS Console](https://console.aws.amazon.com){.external}, click **S3**.
 2. Click **Create Bucket**.
-<ol start="3"><li>Enter a bucket name. The bucket name you choose must be unique across all existing bucket names in Amazon S3.
+3. Enter a bucket name. The bucket name you choose must be unique across all existing bucket names in Amazon S3.
 
  <div class="alert alert-info" role="alert">
  <h4 class="info">Note</h4>
  <p>After you create a bucket, you cannot change its name. The bucket name is visible in the URL that points to the objects stored in the bucket. Ensure that the bucket name you choose is appropriate.</p>
- </div></li></ol>
+ </div>
 
 4. Select a region and click **Create**.
 5. Select **Permissions** within the bucket properties and click **Add more permissions**.
@@ -59,15 +59,21 @@ Do not add the plugin as a Git submodule. Git submodules are not supported on th
 
 4. Deploy the new plugin and your wp-config.php to the Dev environment, then activate the plugin.
 
-[terminus wp <site>.<env> plugin activate S3-Uploads]
+```bash
+terminus wp <site>.<env> plugin activate S3-Uploads
+```
 
 5. Use WP-CLI to verify your AWS setup.
 
-[terminus wp <site>.<env> s3-uploads verify]
+```bash
+terminus wp <site>.<env> s3-uploads verify
+```
 
 6. Optional: Use WP-CLI to create a new AWS user. This is recommended so you are not using admin-level access keys on your site.
 
-[terminus wp <site>.<env> -- s3-uploads create-iam-user --admin-key=<key> --admin-secret=<secret>]
+```bash
+terminus wp <site>.<env> -- s3-uploads create-iam-user --admin-key=<key> --admin-secret=<secret>
+```
 
 Note: Currently this command will only work if you patch the plugin, per this issue on [Github](https://github.com/humanmade/S3-Uploads/issues/95#issuecomment-393989259). You can also create a site-specific user from your S3 admin panel.
 
@@ -77,7 +83,9 @@ Replace the keys you set previously in wp-config.php with the keys returned from
 
 You can migrate existing media files to S3 with the following command:
 
-[terminus wp sg-s3.dev -- s3-uploads migrate-attachments]
+```bash
+terminus wp sg-s3.dev -- s3-uploads migrate-attachments
+```
 
 Optionally, add the `--delete-local` flag to remove the local copies of the media files.
 

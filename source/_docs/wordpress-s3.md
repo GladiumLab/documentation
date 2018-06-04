@@ -82,12 +82,6 @@ Optionally, add the `--delete-local` flag to remove the local copies of the medi
 
 Upon succesful migration, this command will also run a search/replace on your database to update references to the newly-migrated files. Note that you will need to run this on all Pantheon environments (dev/test/live).
 
-#### Use WP-CLI to list and upload files
-@todo test/adapt https://github.com/humanmade/S3-Uploads#listing-files-on-s3
-@todo test/adapt https://github.com/humanmade/S3-Uploads#uploading-files-to-s3
-
-
-
 #### Cache control
 @todo test/adapt https://github.com/humanmade/S3-Uploads#cache-control
 

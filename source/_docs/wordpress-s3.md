@@ -73,12 +73,20 @@ Note: Currently this command will only work if you patch the plugin, per this is
 
 Replace the keys you set previously in wp-config.php with the keys returned from the above command.
 
+#### Migrate existing media using WP Offload S3
+You can migrate existing media files to S3 with the following command:
+
+[terminus wp sg-s3.dev -- s3-uploads migrate-attachments]
+
+Optionally, add the `--delete-local` flag to remove the local copies of the media files.
+
+Upon succesful migration, this command will also run a search/replace on your database to update references to the newly-migrated files. Note that you will need to run this on all Pantheon environments (dev/test/live).
+
 #### Use WP-CLI to list and upload files
 @todo test/adapt https://github.com/humanmade/S3-Uploads#listing-files-on-s3
 @todo test/adapt https://github.com/humanmade/S3-Uploads#uploading-files-to-s3
 
-#### Migrate existing media using WP Offload S3
-@todo test/adapt https://github.com/humanmade/S3-Uploads#migrating-your-media-to-s3
+
 
 #### Cache control
 @todo test/adapt https://github.com/humanmade/S3-Uploads#cache-control

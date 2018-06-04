@@ -69,9 +69,9 @@ Do not add the plugin as a Git submodule. Git submodules are not supported on th
 
 [terminus wp <site>.<env> -- s3-uploads create-iam-user --admin-key=<key> --admin-secret=<secret>]
 
-Note: Currently this command will only work if you patch the plugin, per this issue on [Github](https://github.com/humanmade/S3-Uploads/issues/95#issuecomment-393989259).
+Note: Currently this command will only work if you patch the plugin, per this issue on [Github](https://github.com/humanmade/S3-Uploads/issues/95#issuecomment-393989259). You can also create a site-specific user from your S3 admin panel.
 
-Replace the keys you set previously in wp-config.php with the keys returned from the above command.
+Replace the keys you set previously in wp-config.php with the keys returned from the above command or your S3 admin panel.
 
 #### Migrate existing media using S3 Uploads and WP-CLI
 

@@ -73,7 +73,8 @@ Note: Currently this command will only work if you patch the plugin, per this is
 
 Replace the keys you set previously in wp-config.php with the keys returned from the above command.
 
-#### Migrate existing media using WP Offload S3
+#### Migrate existing media using S3 Uploads and WP-CLI
+
 You can migrate existing media files to S3 with the following command:
 
 [terminus wp sg-s3.dev -- s3-uploads migrate-attachments]

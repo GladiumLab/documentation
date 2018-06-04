@@ -101,12 +101,13 @@ Do not add the plugin as a Git submodule. Git submodules are not supported on th
 
 [terminus wp <site>.<env> s3-uploads verify]
 
-6. Use WP-CLI to create a new AWS user for the site.
+6. Optional: Use WP-CLI to create a new AWS user. This is recommended so you are not using admin-level access keys on your site.
 
 [terminus wp <site>.<env> -- s3-uploads create-iam-user --admin-key=<key> --admin-secret=<secret>]
 
-@todo fail: https://github.com/humanmade/S3-Uploads/issues/95
-@todo more fail: "Error: Cannot read credentials from /srv/bindings/fa723f3bf2e54b26adf141ea25feb45b/.aws/credentials"
+Note: Currently this command will only work if you patch the plugin, per this issue on [Github](https://github.com/humanmade/S3-Uploads/issues/95#issuecomment-393989259).
+
+Replace the keys you set previously in wp-config.php with the keys returned from the above command.
 
 #### Use WP-CLI to list and upload files
 @todo test/adapt https://github.com/humanmade/S3-Uploads#listing-files-on-s3

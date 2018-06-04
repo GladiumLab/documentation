@@ -4,7 +4,7 @@ description: Learn about scaling web applications and architecture of every Pant
 tags: [infrastructure]
 categories: []
 ---
-Pantheon's distributed infrastructure facilitates horizontal scalability through the automated process of provisioning additional lightweight containers. This allows us to take sites from hundreds of pageviews to hundreds of millions of pageviews without downtime.
+Pantheon's distributed infrastructure facilitates horizontal scalability through the automated process of provisioning additional lightweight containers. This allows us to take sites from hundreds of pages served to hundreds of millions without downtime.
 
 ## Vertical vs. Horizontal Scalability
 
@@ -33,7 +33,7 @@ Pantheon's infrastructure is based on a grid model. Each application container i
 For more information on containers, see [All About Application Containers](/docs/application-containers/).
 
 ## Add and Remove Application Containers
-Add containers by upgrading the site's plan within the Site Dashboard to a Business plan or higher. If the additional container(s) are no longer needed, simply downgrade the plan within the Site Dashboard to remove.
+Add containers by upgrading the site's plan within the Site Dashboard to a Performance Medium plan or higher. If the additional container(s) are no longer needed, simply downgrade the plan within the Site Dashboard to remove.
 
 The platform does not assume when additional containers are added or removed in response to traffic and/or resource consumption.
 
@@ -46,4 +46,4 @@ For more information, see [New Relic Pro](/docs/new-relic).
 You'll need to decide how to distribute traffic across the available PHP app servers. Open-source tools like Nginx, HAProxy, and Pound can fill this role, but you can also solve this with hardware (e.g. an F5 appliance) or with a cloud-based load balancer (e.g. Amazon’s ELBs).
 
 ## Managing Temporary Files
-The `/tmp` directory is not shared across application containers, making temporary files created by your site's framework inaccessible for requests served by another container. A plan for managing these files should be implemented prior to scaling the site out. For more details, see [Temporary File Management with Multiple Application Containers](/docs/temp-files).
+The `/tmp` directory is not shared across application containers, making temporary files created by your site's framework inaccessible for requests served by another container. A plan for managing these files should be implemented prior to scaling the site out. For more details, see [Temporary File Management](/docs/tmp/).

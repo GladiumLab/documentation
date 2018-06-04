@@ -116,7 +116,7 @@ Cache misses are by nature slow - if something needs to be cached it's performed
 There are a large number of caches involved in every single request, including:
 
 - [Pantheon Global CDN](/docs/global-cdn-caching/) - Spread out across multiple servers, and the cache is not shared between servers.
-- [APC](/docs/alternative-php-cache/) - PHP has it's own opcode cache, which is not shared between application servers.
+- [APC](/docs/alternative-php-cache/) - PHP has its own opcode cache, which is not shared between application servers.
 - [Drupal](https://drupal.org/node/326504){.external} and [Redis](/docs/redis/) - Shared between your servers, but caches do expire and will need to be regenerated. Therefore, more traffic means more cache hits and faster performance, given the number of components involved.
 
 ## Too Much Traffic
@@ -124,7 +124,7 @@ Of course, too much site traffic can be a problem if you just don't have enough 
 
 If your site is already optimized to the best of your knowledge, including eliminating PHP errors, leveraging caching like Redis and caching things like blocks and views, and your database response time is responding quickly to a reasonable amount of queries, then you might be a victim of your own success.
 
-If you've reached this point, it's probably time to consider upgrading your [Pantheon plan](/docs/select-plan/). We have a number of self-service options for scaling to your needs, but if you've already maxed out a self-service plan, then [Elite](https://pantheon.io/pricing#elite) is a good option.
+If you've reached this point, it's probably time to consider [upgrading your site's plan](/docs/site-plan/). We have a number of self-service options for scaling to your needs, but if you've already maxed out a self-service plan, then [Elite](https://pantheon.io/pricing#elite) is a good option.
 
 ## Running Cron Over Web Traffic
 
@@ -141,9 +141,9 @@ Calling external services during regular requests can be a performance problem. 
 Sometimes these are necessary (e.g. getting a Twitter feed). The recommendation here is to avoid making external calls during regular requests as much as possible. As an alternative, you can make these calls via cron and store them in the database. The data can be refreshed with the desired frequency. The advantage is that even if the external service is slow or goes down your site won't be affected.
 
 ## Memory Errors
-An *Allowed memory size of <bytes\> exhausted* or *Out of Memory* error means that the application's PHP Memory Limit is trying to allocate more memory than the maximum amount of memory any single PHP request can utilize. Memory limits vary between [plans](/docs/platform-resources/), so sites that handle complex or large data sets, use many modules or plugins, or use memory-intensive features will need to plan accordingly and obtain the proper plan to avoid memory overruns. Exceeding this limit will kill the process, resulting in a failed request from the user's perspective.
+An *Allowed memory size of <bytes\> exhausted* or *Out of Memory* error means that the application's PHP Memory Limit is trying to allocate more memory than the maximum amount of memory any single PHP request can utilize. Memory limits vary between [plans](https://pantheon.io/plans/pricing-comparison){.external}, so sites that handle complex or large data sets, use many modules or plugins, or use memory-intensive features will need to plan accordingly and obtain the proper plan to avoid memory overruns. Exceeding this limit will kill the process, resulting in a failed request from the user's perspective.
 
-Debugging memory issues can be challenging. Here are some things to consider when addressing memory issues: 
+Debugging memory issues can be challenging. Here are some things to consider when addressing memory issues:
 
 - Look at the stacktrace provided along with the error to see if there's a module or plugin that is identified
 - Debug code locally using a PHP extension (like [Xdebug](https://xdebug.org/){.external} or [XHProf](http://php.net/manual/en/book.xhprof.php){.external}) or to help refactor code that could be leaking memory
@@ -151,11 +151,10 @@ Debugging memory issues can be challenging. Here are some things to consider whe
 - [Update PHP version](/docs/php-versions/)
 - Use [New Relic](/docs/new-relic/) to identify issues
 
-Please note that memory issues caused by custom code fall outside our [scope of support](/docs/getting-support/#scope-of-support).
+Please note that memory issues caused by custom code fall outside our [scope of support](/docs/support/#scope-of-support).
 
 ### Drupal
 Disabling modules that are unneeded will help reduce memory usage. The [Memory profiler](https://www.drupal.org/project/memory_profiler){.external} module can help troubleshoot issues by logging peak memory usage.
 
 ### WordPress
 Refer to [Debugging in WordPress](https://codex.wordpress.org/Debugging_in_WordPress){.external} from the WordPress.org Codex for information on debugging common issues.
-

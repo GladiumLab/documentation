@@ -39,6 +39,21 @@ Pantheon's new [Global CDN](/docs/global-cdn) provides [free, automated HTTPS](h
 
 {% include("content/https-requirements.html")%}
 
+## Technical Specifications
+
+|                                                                       | Legacy                    | Global CDN with Let's Encrypt   |
+|:--------------------------------------------------------------------- |:------------------------- |:------------------------------- |
+| **Price**                                                             | $60/month per environment | Free                            |
+| **Certificate Type**                                                  | Bring your own            | Shared, issued by Let's Encrypt |
+| **Renewal**                                                           | Self-managed (up to you)  | Automatic                       |
+| **Inbound IP**                                                        | Static (unique)           | Static (shared)                 |
+| **Client Support**                                                    | 96.02% of browsers        | 95.55% of Browsers <br>Some very old browsers not supported <sup><a href="https://caniuse.com/#search=TLS%201.2">1 <a href="https://caniuse.com/#search=SNI">2</a></sup> |
+| [**SSL Labs Rating**](https://www.ssllabs.com/ssltest/){.external}    | A                         | A+ [with HSTS](/docs/hsts/)     |
+| **Protocol**                                                          | TLS 1.1 & 1.2             | TLS 1.2 with SNI                |
+| **Ciphers**                                                           | Weak 3DES Cipher          | No Weak 3DES cipher             |
+| **Delivery**                                                          | US Datacenter             | [Global CDN](/docs/global-cdn)  |
+| **Encryption Endpoint**                                               | Load Balancer             | Application Container           |
+
 ## Frequently Asked Questions
 
 ### How do I switch my site over to HTTPS from HTTP?
@@ -58,13 +73,13 @@ No, but you shouldn't need to buy a dedicated certificate or worry about renewal
 
 Some customers have purchased expensive certificates, often through an upsell from the certificate authority. Unfortunately, an expensive certificate does not mean increased security. If in doubt, we encourage you to test your site with SSL Labs, compare it to this [A+ report](https://www.ssllabs.com/ssltest/analyze.html?d=pantheon.io), and share it with your client.
 
-If bringing your own certificate is a hard requirement, then we recommend terminating HTTPS through a 3rd-party CDN service provider like Cloudflare, CloudFront, StackPath, etc. Configuration differs depending on provider, so please [contact support](https://pantheon.io/docs/getting-support/) to discuss your case.
+If bringing your own certificate is a hard requirement, then we recommend terminating HTTPS through a 3rd-party CDN service provider like Cloudflare, CloudFront, StackPath, etc. Configuration differs depending on provider, so please [contact support](https://pantheon.io/docs/support/) to discuss your case.
 
 ### Is HTTPS encryption end-to-end?
 Yes! HTTPS is terminated at the CDN edge and traffic is encrypted all the way to the individual application container. This is an improvement over our legacy system that terminated all encryption at the load balancer, and a huge upgrade over setups which use a "mixed mode" strategy of terminating HTTPS at the CDN and then back-ending to the origin over unencrypted clear text communication.
 
 ### Will HTTPS be available for my site throughout the upgrade process?
-Yes! As long as your are following the Dashboard DNS recommendations before starting the upgrade, you will see no interruption in HTTPS service. The process to provision certificates can take up to an hour, after which you can update DNS records without HTTPS interruption.
+Yes! As long as you are following the Dashboard DNS recommendations before starting the upgrade, you will see no interruption in HTTPS service. The process to provision certificates can take up to an hour, after which you can update DNS records without HTTPS interruption.
 
 Existing sites that are live over HTTPS which are not already hosted on Pantheon can [pre-provision HTTPS](/docs/guides/launch/configure-dns/) to avoid interruption. If you are unable to prove ownership as described, we recommend a maintenance window.
 
@@ -91,8 +106,8 @@ Refer to [Cloudflare Domain Configuration](/docs/cloudflare/).
 ### For how long are Let's Encrypt certificates valid and what happens when they expire?
 Let's Encrypt certificates are valid for 90 days and are automatically updated on the platform before they expire.
 
-
 ## Known Issues
+
 ### HTTPS doesn't provision with incorrect AAAA configurations
 Pantheon cannot not begin provisioning HTTPS if the Site Dashboard detects incorrect values set on AAAA records. Once you update the records using the recommended values, HTTPS will start to provision automatically. The values for AAAA records look similar, but they are distinct.
 
@@ -114,10 +129,11 @@ The text challenge to pre-provision HTTPS on Pantheon requires adding a `.well-k
 
 Pantheon requests new certificates frequently in order to add domains to existing certificates. This can potentially expose  organizations managing many domains to Let's Encrypt rate limits. While sites hosted on Pantheon are not subject to these lower limits, sites hosted off the platform may experience request failures.
 
-If you encounter rate limits we recommend either of two approaches:
+If you encounter rate limits, we recommend the following approaches:
 
-1. [Ask Let's Encrypt to increase your rate limit](https://docs.google.com/forms/d/e/1FAIpQLSetFLqcyPrnnrom2Kw802ZjukDVex67dOM2g4O8jEbfWFs3dA/viewform){.external}.
-2. Add your apex domain (e.g., `example.edu`) to the public suffix list by submitting a [pull request](https://github.com/publicsuffix/list/wiki/Guidelines){.external}, which will cause Let's Encrypt to treat every subdomain of the main domain as independent for limit purposes. Also, browsers and malware scanners will treat the subdomains as independent.
+- [Ask Let's Encrypt to increase your rate limit](https://docs.google.com/forms/d/e/1FAIpQLSetFLqcyPrnnrom2Kw802ZjukDVex67dOM2g4O8jEbfWFs3dA/viewform){.external}.
+- Request that your apex domain (e.g., `example.edu`) be added to the public suffix list by submitting a [pull request](https://github.com/publicsuffix/list/wiki/Guidelines){.external}, which will cause Let's Encrypt to treat every subdomain of the main domain as independent for limit purposes. Also, browsers and malware scanners will treat the subdomains as independent.
+- Consider using another certificate service for sites that are not on Pantheon. For example, educational institutions may want to consider using the [Incommon Certificate Service](https://www.incommon.org/certificates/){.external} as a workaround.
 
 ## Glossary
 ### HTTPS

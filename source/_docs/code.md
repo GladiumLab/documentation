@@ -73,7 +73,7 @@ You can also view the diff output for each individual file:
 ![Diff output](/source/docs/assets/images/dashboard/diff-screen.png)
 
 ### Upstream Updates
-The Dev environment provides [one-click updates](/docs/upstream-updates/) for your site's upstream. Updates will appear in the Code tool once they are committed to the upstream repository.
+The Dev environment provides [one-click updates](/docs/core-updates/) for your site's upstream. Updates will appear in the Code tool once they are committed to the upstream repository.
   <dl>
     <dt>Upstream</dt>
       <dd>A code repository that serves as a common package for your web application.</dd><br>
@@ -99,7 +99,7 @@ Learn how to use [bots and indexing](/docs/bots-and-indexing/) in a way that doe
 - [Hot Fixes](/docs/hotfixes/)
 - [What is the "pantheon_api.module"](/docs/modules#pantheon-module-drupal-7)
 - [Email on Pantheon](/docs/email/)
-- [Domains and Redirects](/docs/domains/)
+- [Platform and Custom Domains](/docs/domains/)
 - [SERVER_NAME and SERVER_PORT on Pantheon](/docs/server_name-and-server_port/)
 - [LDAP and LDAPS](/docs/ldap-and-ldaps/)
 - [Pantheon Enterprise Gateway](/docs/pantheon-enterprise-gateway/)

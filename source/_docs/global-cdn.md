@@ -72,7 +72,7 @@ For more details, see [Clearing Caches for Drupal and WordPress](/docs/clear-cac
 
 ## Enabling the Global CDN
 
-If you don't see action required in your Domains / HTTPS tool, please [contact support](/docs/getting-support) to enable the upgrade.
+If you don't see action required in your Domains / HTTPS tool, please [contact support](/docs/support) to enable the upgrade.
 
 ### Upgrade Your Site
 
@@ -144,7 +144,7 @@ See [Cloudflare Domain Configuration](/docs/cloudflare/).
 No, we pre-configured the CDN so you don’t have to hassle with configuration, and we can guarantee performance and uptime. The Global CDN's behavior is the same as our legacy cache which is heavily optimized for Drupal and WordPress sites, and serves billions of pages monthly, except it's globally distributed.
 
 ### Do I get access to hit rates or other statistics?
-Hit rates or other statistics are not currently available.
+Hit rates are not currently available, but you can measure traffic for the Live environment. For details, see [Metrics in the Site Dashboard](/docs/metrics/).
 
 ### Can I use other CDNs with the Pantheon Global CDN?
 Yes, but because it adds additional complexity, we suggest you only do so if you identify a need that the Pantheon Global CDN doesn't address. We recommend that you ensure you are enforcing HTTPS only at the outer CDN and are assuming HTTPS in the application. Check your CDN for how to redirect all traffic to HTTPS.

@@ -56,7 +56,7 @@ Pantheon does not provide any mechanism to implement domain masking. You may be 
 In cases of redirection issues on sites with domain masking implemented, Pantheon cannot assist in debugging unless the domain masking is disabled.
 
 ### Additional Databases
-While you are able to import an additional database to an environment, only the Pantheon database will be persevered when the application container is updated. This means you can use an additional database for running migration scripts, but should not rely on it nor write any new data to it.
+While you are able to import an additional database to an environment, only the Pantheon database will be preserved when the application container is updated. This means you can use an additional database for running migration scripts, but should not rely on it nor write any new data to it.
 
 ## Highly Populated Directories
 
@@ -147,7 +147,7 @@ Pantheon does not currently support LESS or Sass/Compass CSS preprocessor langua
 ## .htaccess
 Pantheon sites use NGINX to concurrently serve requests. The NGINX web server ignores distributed configuration files such as `.htaccess` for reduced resource consumption and increased efficiency. This configuration is standard across all Pantheon sites, and modifications to the `nginx.conf` file are not supported.
 
-For details, see [Using PHP as an htaccess Alternative](/docs/htaccess).
+For details, see [Configure Redirects](/docs/redirects/#php-vs-htaccess).
 
 ## nginx.conf
 
@@ -170,8 +170,8 @@ Pantheon does not currently support the [PHP/Java Bridge](http://php-java-bridge
 
 Pantheon does not currently support any PHP frameworks outside of Drupal and WordPress. The platform is only optimized for Drupal or WordPress and no others. Although PHP will run, we can not assist you in getting the non-approved frameworks running in any way.
 
-## Unsupported Drupal Modules and WordPress Plugins
-See [Modules and Plugins with Known Issues](/docs/modules-plugins-known-issues) for an up-to-date list of modules and plugins that do not work with or are not supported by Pantheon.
+## Modules and Plugins with Known Issues
+See [Modules and Plugins with Known Issues](/docs/modules-plugins-known-issues) for a list of Drupal modules and WordPress plugins that are not supported and/or require workarounds.
 
 ## Inactive Site Freezing
 

@@ -71,7 +71,7 @@ Rotated log files are archived within the `/logs` directory on application serve
 
 <div class="alert alert-info">
 <h4 class="info">Note</h4>
-<p markdown="1">When appservers are migrated as a regular part of platform maintenance, log files are destroyed as they are appserver-specific.  Consider <a href="/#automate-downloading-logs" data-proofer-ignore>automating the collection</a> of logs regularly to maintain historical log data.</p>
+<p markdown="1">When appservers are migrated as a regular part of platform maintenance, log files are destroyed as they are appserver-specific.  Consider <a href="#automate-downloading-logs" data-proofer-ignore>automating the collection</a> of logs regularly to maintain historical log data.</p>
 </div>
 
 ## Access Logs Via SFTP
@@ -228,7 +228,7 @@ We do not recommend disabling dblog. Best practice is to find and resolve the pr
 
 ### How do I access logs in environments with multiple containers?
 
-Live environments for Personal and Professional sites on paid plans have one main and one failover container that can contain logs. Business and Elite plans have more than one container in the Live *and* Test environments. In order to download the logs from each application container, use the following shell script:
+Live environments for Basic and Performance sites on paid plans have one main and one failover container that can contain logs. Performance Medium plans and above have more than one container in the Live *and* Test environments. In order to download the logs from each application container, use the following shell script:
 
 ```bash
 # Site UUID from Dashboard URL, eg 12345678-1234-1234-abcd-0123456789ab

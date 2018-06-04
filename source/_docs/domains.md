@@ -1,6 +1,6 @@
 ---
-title: Domains and Redirects
-description: Understand how domains work on Pantheon and how to redirect requests in PHP for WordPress and Drupal.
+title: Platform and Custom Domains  
+description: Work with platform domains or connect custom domains in the Site Dashboard, then redirect requests via PHP to standardize traffic on HTTPS and a primary domain.
 tags: [redirects, variables, dns]
 categories: []
 searchboost: 150
@@ -77,7 +77,7 @@ Redirecting all traffic to a primary domain is a best practice for SEO since it 
 
 <div class="alert alert-info">
 <h4 class="info">Note</h4>
-<p markdown="1">Redirects should be managed in PHP, since `.htaccess` is ignored. For details, see [Using PHP as an htaccess Alternative](/docs/htaccess/).</p>
+<p markdown="1">Redirects must be managed via PHP, since `.htaccess` is ignored. For details, see [Configure Redirects](/docs/redirects/#php-vs-htaccess).</p>
 </div>
 
 ### Redirect to HTTPS and the Primary Domain
@@ -85,116 +85,7 @@ It's a best practice for SEO and security to standardize all traffic on HTTPS an
 
 {% include("redirects.twig")%}
 
-<div class="panel panel-drop" id="accordion">
-  <div class="panel-heading panel-drop-heading">
-    <a class="accordion-toggle panel-drop-title collapsed" data-toggle="collapse" data-parent="#accordion" data-proofer-ignore data-target="#more-redirects"><h3 class="panel-title panel-drop-title" style="cursor:pointer;"><span style="line-height:.9" class="glyphicons glyphicons-lightbulb"></span> See more redirect scenarios</h3></a>
-  </div>
-  <div id="more-redirects" class="collapse">
-    <div class="panel-inner" markdown="1">
-When using multiple snippets, be sure to step through the logic. This is particularly important when redirecting to a common domain while also incorporating redirects for specific pages. All <code>if</code> conditional statements need to be in the correct order. For example, a wholesale redirect executed <em>prior</em> to redirects for specific pages would likely prevent the second statement from being evaluated.
-
-#### Redirect to HTTPS
-While it is considered best practice to redirect all traffic to a single primary domain, there are times during development where it may be preferred to redirect traffic to HTTPS without standardizing on a single domain:
-
-```php
-   // Require HTTPS.
-   if (isset($_SERVER['PANTHEON_ENVIRONMENT']) &&
-     ($_SERVER['HTTPS'] === 'OFF') &&
-     // Check if Drupal or WordPress is running via command line
-     (php_sapi_name() != "cli")) {
-     if (!isset($_SERVER['HTTP_USER_AGENT_HTTPS']) ||
-     (isset($_SERVER['HTTP_USER_AGENT_HTTPS']) && $_SERVER['HTTP_USER_AGENT_HTTPS'] != 'ON')) {
-       header('HTTP/1.0 301 Moved Permanently');
-       header('Location: https://'. $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
-       exit();
-
-      # Name transaction "redirect" in New Relic for improved reporting (optional)
-      if (extension_loaded('newrelic')) {
-        newrelic_name_transaction("redirect"); 
-      }
-   }
-```
-
-#### Redirect to Subdirectories or Specific URLs
-
-To redirect from a subdomain to a specific area of the site, use the following:
-
-```php
- // Redirect subdomain to a specific path.
- if (isset($_ENV['PANTHEON_ENVIRONMENT']) &&
-   ($_SERVER['HTTP_HOST'] == 'subdomain.yoursite.com') &&
-   // Check if Drupal or WordPress is running via command line
-   (php_sapi_name() != "cli")) {
-   $newurl = 'http://www.yoursite.com/subdomain/'. $_SERVER['REQUEST_URI'];
-   header('HTTP/1.0 301 Moved Permanently');
-   header("Location: $newurl");
-  exit();
- }
-```
-
-This will redirect requests like http://subdomain.yoursite.com/some/path to http://www.yoursite.com/subdomain/some/path.
-
-The same technique works for single subdomain redirects. Just specify the path in `$newurl` without bothering with `$_SERVER['REQUEST_URI']`
-
-#### Redirect From One Path to Another
-
-```php
-// 301 Redirect from /old to /new.
-if (($_SERVER['REQUEST_URI'] == '/old') &&
-  // Check if Drupal or WordPress is running via command line
-  (php_sapi_name() != "cli")) {
-  header('HTTP/1.0 301 Moved Permanently');
-  header('Location: /new');
-  exit();
-}
-```
-#### Redirect Multiple Subdomains to a Single Domain
-
-```php
-// Redirect multiple subdomains to a single domain.
-if (isset($_ENV['PANTHEON_ENVIRONMENT']) &&
-  ($_ENV['PANTHEON_ENVIRONMENT'] === 'live') &&
-  // Check if Drupal or WordPress is running via command line
-  (php_sapi_name() != "cli")) {
-  if (in_array($_SERVER['HTTP_HOST'], array(
-    'sub1.youroldwebsite.com',
-    'sub2.youroldwebsite.com',
-    'sub3.youroldwebsite.com',
-    'sub4.youroldwebsite.com',
-    'sub5.youroldwebsite.com',
-  ))) {
-    header('HTTP/1.0 301 Moved Permanently');
-    header('Location: http://main.yournewwebsite.com'. $_SERVER['REQUEST_URI']);
-    exit();
-  }
-}
-```
-#### Redirect Legacy UNIX-Style User Home Folder Paths
-
-When transitioning from a system that used a tilde to indicate a home directory, the syntax is slightly different. Here's how you can parse out the username and relative path that the request was made for:
-
-```php
-$request_parts = explode('/', $_SERVER['REQUEST_URI']);
-$legacy_username = $legacy_path = '';
-if (isset($request_parts[1]) && strpos($request_parts[1], '~') === 0) {
-  $legacy_username = substr($request_parts[1], 1);
-  // If FALSE, then the request was just to the username.
-  $legacy_path = substr($_SERVER['REQUEST_URI'], (strlen($request_parts[1]) + 1));
-}
-if ($legacy_username) {
-  // Your custom logic.
-}
-```
-#### Redirect to Force Lowercase Letters
-WordPress automatically forces lowercase letters within URLs using the [`sanitize_title_with_dashes()`](https://core.trac.wordpress.org/browser/tags/4.6/src/wp-includes/formatting.php#L1744) function in core.
-
-Drupal sites can force lowercase letters using the following:
-
-1. Set general automatic alias settings  to **Change to lower case** within the [PathAuto](https://www.drupal.org/project/pathauto) module configuration (`/admin/build/path/pathauto`).
-2. Enable **Case Sensitive URL Checking** within the [Global Redirect](https://www.drupal.org/project/globalredirect) module configuration (`/admin/settings/globalredirect`).
-</div>
-</div>
-</div>
+For more redirect scenarios, see [Configure Redirects](/docs/redirects).
 
 ## Vanity Domains for Organizations
 Pantheon Partners, Strategic Partners, Enterprise accounts, Resellers, and OEM Partners have the ability to provision a custom vanity domain for each environment on every site running on the platform, in addition to the default platform domain (`pantheonsite.io`).
@@ -210,29 +101,38 @@ All redirect logic should include the `php_sapi_name() != "cli"` conditional sta
 [error]
 ```
 ### Infinite Redirect Loops
-Errors referencing too many redirects may be a result of using the ` $_SERVER['HTTP_X_FORWARDED_PROTO']` variable within redirect logic located in your site's `wp-config.php` or `settings.php` file. Resolve this error by replacing the offending redirect logic with the [recommended code samples in the above section](#redirect-to-https-and-the-primary-domain) and for your specific use case.
+#### HTTP_X_FORWARDED_PROTO
+Errors referencing too many redirects may be a result of using the ` $_SERVER['HTTP_X_FORWARDED_PROTO']` variable within redirect logic located in your site's `wp-config.php` or `settings.php` file.
+
+Resolve this error by replacing the offending redirect logic with the [recommended code samples in the above section](#redirect-to-https-and-the-primary-domain) and for your specific use case.
+
+#### Modules and Plugins
+Modules and plugins that support managing redirects in the Site Admin interface can produce redirect errors when repeating or conflicting with redirects managed via PHP in your site's configuration file. Some examples include:
+
+WordPress plugins: Redirection, Quick Page/Post Redirect, Safe Redirect Manager, Simple 301 Redirects
+
+Drupal modules: Language (when using URL detection), Securepages, Redirect
+
+When troubleshooting a redirect loop, you may want to deactivate any module or plugin that may be providing its own redirect logic.
 
 ### Mixed-mode Browser Warnings
 Replace `http://` in the site's database and configure your CMS to assume users are visiting via HTTPS and the site’s primary domain. Templates for example should reference HTTPS in absolute CSS and Javascript sources, even when accessed with HTTP.
 
 ### CNAME Record Workaround
-If your domain's DNS configuration relies on an existing MX or TXT record that intentionally disallows CNAME records, you'll need to use A and AAAA records to configure DNS for subdomains (e.g., `www.example.com`) instead of CNAMEs:
+If your domain's DNS configuration relies on an existing MX or TXT record that intentionally disallows CNAME records, you'll need to use A and AAAA records to configure DNS for subdomains (e.g., `www.example.com`) instead of CNAMEs.
 
-1. Identify required A record value by querying the target environment's [platform domain](#platform-domains) (e.g., `live-example.pantheonsite.io`) from the command line using dig:
+<div class="alert alert-info">
+<h4 class="info">Note</h4>
+<p markdown="1">Replace `live-example.pantheonsite.io` in the following URLs with the target environment's [platform domain](#platform-domains).</p>
+</div>
 
-  ```
-  dig +short live-example.pantheonsite.io | tail -1
-  ```
+1. Identify required A record value by querying the target environment's platform domain using a free online tool, such as [https://www.whatsmydns.net/#A/live-example.pantheonsite.io](https://www.whatsmydns.net/#A/live-example.pantheonsite.io){.external}
 
-2. Do the same for the required AAAA values:
+2. Do the same for the required AAAA values. For example,  [https://www.whatsmydns.net/#AAAA/live-example.pantheonsite.io](https://www.whatsmydns.net/#AAAA/live-example.pantheonsite.io){.external}
 
-  ```
-  dig +short live-example.pantheonsite.io AAAA | tail -2
-  ```
-
-  ![dig example](/source/docs/assets/images/dig-example.png)
-
-3. Create two AAAA records and one A record for the desired subdomain (e.g., `www`) using the values returned in the above two steps wherever you host DNS for the domain.
+3. Log in to your DNS host and create two AAAA records and one A record for the desired subdomain (e.g., `www`) using the values returned in the steps above.
 
 ## See Also
- - [Switching DNS From One Pantheon Site to Another](/docs/switching-dns/)
+- [Configure Redirects](/docs/redirects)
+- [Launch Essentials](/docs/guides/launch/)
+- [Relaunch Existing Pantheon Site](/docs/relaunch/)

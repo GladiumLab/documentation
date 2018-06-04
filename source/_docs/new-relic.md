@@ -4,17 +4,25 @@ description: Learn how to enable and use New Relic performance metrics and repor
 tags: [newrelic, addons]
 categories: []
 ---
-[New Relic APM Pro](https://newrelic.com/){.external} offers a wide array of metrics that provide a nearly real-time look into the performance of a web application and is provided to all sites on Pantheon for free. Using New Relic not only makes it easy for you to monitor your performance, but it can also speed up the support process by helping our support team visualize corresponding performance and symptoms.
+[New Relic APM Pro](https://newrelic.com/){.external} offers a wide array of metrics that provide a nearly real-time look into the performance of a web application. Using New Relic not only makes it easy for you to monitor your performance, but it can also speed up the support process by helping our support team visualize corresponding performance and symptoms.
 
 <div class="enablement">
   <h4 class="info" markdown="1">[Agency DevOps Training](https://pantheon.io/agencies/learn-pantheon?docs){.external}</h4>
   <p>Get the most out of New Relic with help from the experts at Pantheon. We deliver custom workshops to help development teams master the platform and improve internal DevOps.</p>
 </div>
 
-## Activate New Relic APM Pro
-Select the **New Relic** tab on your Site Dashboard, and click **Activate New Relic Pro**. You can also use the [Terminus Omniscient](https://github.com/terminus-plugin-project/terminus-omniscient-plugin/){.external} plugin to enable New Relic Pro for all sites you have access to by logging in to your Pantheon account and running `terminus omniscient`.
+## Supported Site Plans
+All plans except for a Basic plan can use New Relic APM Pro. New Relic APM Pro is available to Sandbox site plans for developmental purposes, but New Relic APM Pro will not be available going live on a Basic plan.
 
-Visit your site in the browser a couple of times to generate data in New Relic. After a few minutes pass, go to the New Relic workspace on your Dashboard, and click **Go to New Relic**.
+| Plans         | New Relic APM Pro Support <a rel="popover" data-proofer-ignore data-toggle="tooltip" data-html="true" data-content="Available across all environments, including Multidevs."><em class="fa fa-info-circle"></em></a> |
+| ------------- | ------- |
+| Sandbox       | ✓       |
+| Basic         |         |
+| Performance   | ✓       |
+| Elite         | ✓       |
+
+## Activate New Relic APM Pro
+Select the **New Relic** tab on your Site Dashboard, and click **Activate New Relic Pro**. Visit your site in the browser a couple of times to generate data in New Relic. After a few minutes pass, go to the New Relic workspace on your Dashboard, and click **Go to New Relic**.
 
 New Relic is automatically enabled for all application servers added to the site, including Multidev environments.
 
@@ -60,8 +68,9 @@ To disable New Relic for anonymous traffic on Drupal-based sites, add the follow
 if (function_exists('newrelic_ignore_transaction')) {
   $skip_new_relic = TRUE;
   // Capture all transactions for users with a PHP session.
+  // (SSESS is the session cookie prefix when PHP session.cookie_secure is on.)
   foreach (array_keys($_COOKIE) as $cookie) {
-    if (substr($cookie, 0, 4) == 'SESS') {
+    if (substr($cookie, 0, 4) == 'SESS' || substr($cookie, 0, 5) == 'SSESS') {
       $skip_new_relic = FALSE;
     }
   }
@@ -95,6 +104,8 @@ if (function_exists('newrelic_ignore_transaction')) {
 }
 ```
 
+{% include("content/monitor-alerts.html")%}
+
 ## Troubleshooting
 
 ### New Relic Access
@@ -119,23 +130,21 @@ If you try to access New Relic prior to any traffic reaching an environment, you
 2. Close the tab, wait a few minutes.
 3. Click the **Go to New Relic** button.
 
+### Who is the New Relic account associated with?
+- If the site owner is a user, the site owner's name and email address is used to create the New Relic account.
+- If the site owner is an organization, the name and email address of the Pantheon user who activates New Relic is used to create the New Relic account. This user must be a member of the organization.
+
 #### If you see "We're sorry, you haven't verified your email address yet."
 After activating New Relic, a confirmation email will be sent to the site owner to complete the setup process. The account will need to be verified first before members of the site can access New Relic dashboard.
 
-If the site owner did not receive the confirmation email, you can re-send the link by clicking "Forgot your password":
+If the New Relic account holder, i.e. the site owner or user who activated the New Relic account for the site, did not receive the confirmation email, you can re-send the link by clicking "Forgot your password":
 
 1. On New Relic's login page, click **Forgot your password?**.
 2. Enter the email address of the site owner.
 3. Click **Send my reset link**.
-4. Open the email you will recieve, click the reset link, and follow the prompts to access your account.
+4. Open the email you will receive, click the reset link, and follow the prompts to access your account.
 
-
-
-### Who is the New Relic account associated with?
-- If site owner is a user, the site owner's name and email address is used to create the New Relic account.
-- If site owner is an organization, the name and email address of the Pantheon user who activates New Relic is used to create the New Relic account. These users must be members of the organization.
-
-To learn how to use New Relic APM Pro to monitor your site's performance, see [New Relic's documentation](https://docs.newrelic.com/docs/agents/php-agent/getting-started/new-relic-php#monitor-performance){.external}.
+Contact Support if you are unsure what user the New Relic account is associated with and unable to identify where the password reset email has been sent.
 
 
 ### Removing Multidev Environments in New Relic
@@ -165,17 +174,9 @@ if ($pos !== false){
 To isolate the disabling of New Relic to only AMP pages, the example logic checks the current request for `?amp`. Adjust this example as needed based on your site's implementation of Google AMP and it's corresponding URL patterns.
 
 It is important to note that this method is sensitive to call location. Most customers find success calling this method early in a transaction. For Drupal 8, this can be done using an event subscriber that listens to the `kernel.request` event for instance.
-### APM Availability Monitoring Alerts and False Positive Downtime Events
-When your site uses HTTPS there are two scenarios that can cause your New Relic APM's Availability Monitoring to report false positive Downtime events for your site.
 
-#### Server Name Indication (SNI)
-Sites configured with third-party proxy services that use SNI to serve HTTPS requests (e.g. Cloudflare, CloudProxy) will cause alerts and downtime events within New Relic APM's Availability Monitoring reports when the ping URL uses HTTPS. This is a [known New Relic availability monitoring limitation](https://docs.newrelic.com/docs/alerts/alert-policies/downtime-alerts/availability-monitoring#limits){.external}.
-
-#### TLS 1.1 or Higher
-When your site uses HTTPS on Pantheon, the cryptographic protocol in use is TLS 1.1. The regular New Relic Availability Monitoring alerts can only access sites using TLS 1.0 or below. New Relic recommends that you create a New Relic Synthetics alert which can access HTTPS sites using cryptographic protocols TLS 1.1 and higher.
-
-#### Solution: Use New Relic Synthetics Lite
-As an alternative to both situations, you can use the free New Relic Synthetic Lite service to monitor HTTPS pages served with SNI. Enable this service using the [steps provided above](#configure-ping-monitors-for-availability).
+### APM Availability Monitoring
+Availability monitoring from APM is heavily outdated, and will not work with the Pantheon platform. As an alternative, you can use the free New Relic Synthetic Lite service using the [steps provided above](#configure-ping-monitors-for-availability).
 
 ## Frequently Asked Questions
 
@@ -188,7 +189,7 @@ At the bottom of any page, click **Permalink**. This will preserve the current t
 
 ### How much is New Relic APM Pro?
 
-Pantheon provides New Relic APM Pro for all sites at no cost. Purchase additional services or upgrade your New Relic account by reaching out to [sales@newrelic.com](mailto:sales@newrelic.com){.external}.
+Pantheon provides New Relic APM Pro for all site plans except Basic, at no cost. Purchase additional services or upgrade your New Relic account by reaching out to [sales@newrelic.com](mailto:sales@newrelic.com){.external}.
 
 ### Will turning on New Relic APM Pro slow my site down?
 
@@ -219,3 +220,4 @@ We don't recommend turning off New Relic for any one environment as it makes tro
 - [New Relic Univeristy: APM Advanced](https://learn.newrelic.com/courses/apm_advanced){.external}
 - [Interface Overview](https://newrelic.com/docs/site/the-new-relic-ui){.external}
 - [Finding Help From the New Relic UI](https://newrelic.com/docs/site/finding-help){.external}
+- [Introduction to New Relic for PHP](https://docs.newrelic.com/docs/agents/php-agent/getting-started/introduction-new-relic-php#monitor-performance){.external}

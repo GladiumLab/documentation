@@ -7,7 +7,7 @@ Pantheon Custom Upstreams are a self-serve feature available to anyone with acce
 
 <div class="alert alert-info" role="alert" markdown="1">
 #### Note {.info}
-Be aware that support for Custom Upstreams is limited to verification that the externally hosted upstream repository is connected properly to the platform. For details, see [Get Support](/docs/getting-support/#custom-upstreams).
+Be aware that support for Custom Upstreams is limited to verification that the externally hosted upstream repository is connected properly to the platform. For details, see [Get Support](/docs/support/#custom-upstreams).
 </div>
 
 
@@ -241,3 +241,4 @@ Once all sites have been updated to track the new Custom Upstream, you can safel
 
 ## Next Steps
 - [Best Practices for Maintaining Custom Upstreams](/docs/maintain-custom-upstream)
+- [Switching an Existing site to a Custom Upstream with Terminus](/docs/terminus/examples/#switch-upstreams)

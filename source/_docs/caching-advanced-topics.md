@@ -6,7 +6,7 @@ categories: []
 ---
 ## Allow a User to Bypass the Cache
 
-Pantheon supports setting a NO\_CACHE cookie for users who should bypass the cache. When this cookie is present, Varnish will neither get the user's response from any existing cache or store the response from the user into the cache.
+Pantheon supports setting a NO\_CACHE cookie for users who should bypass the cache. When this cookie is present, Varnish will neither get the user's response from any existing cache nor store the response from the user into the cache.
 
 <div class="enablement">
   <h4 class="info" markdown="1">[Agency DevOps Training](https://pantheon.io/agencies/learn-pantheon?docs){.external}</h4>
@@ -24,7 +24,7 @@ This allows users to immediately see comments or changes they've made, even if t
 
 For the purpose of optimizing cache hits for identical content, Varnish ignores any GET parameter prefixed with `__` (two underscores) or `utm_` in determining the cache key. This optimization is compatible with services such as Google Analytics and AdWords that use these query parameters solely for tracking and do not alter the page content returned by the application server. The double-underscore prefix for parameter keys and cookie names is a standard convention used by frontend code to indicate a value that can be safely ignored on the back-end.
 
-For example, <tt>?__dynamic_id=1234</tt> is ignored, while <tt>?dynamic_id=1234</tt> and <tt>?_dynamic_id</tt> are considered distinct pages.
+For example, `?__dynamic_id=1234` is ignored, while `?dynamic_id=1234` and `?_dynamic_id` are considered distinct pages.
 
 The query parameters are still passed to the application server; however, the values are replaced with `PANTHEON_STRIPPED` to indicate that cache optimization is in effect for this parameter. Avoid using these parameters in ways that alter content in the response.
 
@@ -33,6 +33,13 @@ For more information, see [PANTHEON_STRIPPED GET Parameter Values](/docs/pantheo
 ## External Authentication (e.g. Facebook login)
 
 If your site or application requires Facebook authentication, we have added exceptions for this to allow users to register and log in. In the event you are having problems with another external authentication service, please contact us and let us know what service you are having issues with.
+
+## Manually Expiring Cache for Static Assets (e.g. CSS, JS, PDFs, Images)
+
+Pantheon sets a cache lifetime of 1 year for static assets per industry standard best practices. To ensure a client browser receives a new version of a static asset you can:
+
+ - Rename the file
+ - Request the file with an updated query parameter. For example, you can version a css file by linking to it as `style.css?v=1.1`
 
 ## Using Your Own Session-Style Cookies
 
@@ -46,16 +53,16 @@ Drupal uses SESS-prefixed cookies for its own session tracking, so be sure to na
 **Incorrect:** SESS\_hello, SESS-12345, mycustomSESS, Sessone, sess123testing, SESSFIVE
 
 ### WordPress Sites
-WordPress does not use PHP session cookies; however, some themes and plugins do. If you are using a theme or plugin that requires PHP sessions, you can install the [WordPress Native PHP Sessions](https://wordpress.org/plugins/wp-native-php-sessions/ "Pantheon Session WordPress plugin") plugin. It is designed to handle the naming properly.
+WordPress does not use PHP session cookies; however, some themes and plugins do. If you are using a theme or plugin that requires PHP sessions, you can install the [WordPress Native PHP Sessions](https://wordpress.org/plugins/wp-native-php-sessions/ "Pantheon Session WordPress plugin"){.external} plugin. It is designed to handle the naming properly.
 
 ### Session and Cookie Lifetime
-Pantheon allows developers to control the length of sessions. There are two pieces; the lifetime of the cookie and the lifetime of the session itself.
+Pantheon allows developers to control the length of sessions. There are two pieces: the lifetime of the cookie and the lifetime of the session itself.
 
-The cookie lifetime is configured using the PHP setting [session.cookie\_lifetime](https://secure.php.net/manual/en/session.configuration.php#ini.session.cookie-lifetime). If set to 0, the cookie is deleted when the user closes their browser. Set to 2,000,000 seconds in Drupal's default.settings.php and in Pantheon's PHP configuration.
+The cookie lifetime is configured using the PHP setting [session.cookie\_lifetime](https://secure.php.net/manual/en/session.configuration.php#ini.session.cookie-lifetime){.external}. If set to 0, the cookie is deleted when the user closes their browser. Set to 2,000,000 seconds in Drupal's default.settings.php and in Pantheon's PHP configuration.
 
-Drupal's [session garbage collection](https://api.drupal.org/api/drupal/includes%21session.inc/function/_drupal_session_garbage_collection/7) uses the PHP setting [session.gc\_maxlifetime](https://secure.php.net/manual/en/session.configuration.php#ini.session.gc-maxlifetime) when deleting expired sessions from the sessions database table. Set to 200,000 seconds in Drupal's default.settings.php and in Pantheon's PHP configuration.
+Drupal's [session garbage collection](https://api.drupal.org/api/drupal/includes%21session.inc/function/_drupal_session_garbage_collection/7){.external} uses the PHP setting [session.gc\_maxlifetime](https://secure.php.net/manual/en/session.configuration.php#ini.session.gc-maxlifetime){.external} when deleting expired sessions from the sessions database table. Set to 200,000 seconds in Drupal's default.settings.php and in Pantheon's PHP configuration.
 
-For additional details and examples on how to set cookie lifetimes and garbage collection manually, see ​​the [documentation within default.settings.php](https://github.com/pantheon-systems/drops-7/blob/master/sites/default/default.settings.php#L314-L336).
+For additional details and examples on how to set cookie lifetimes and garbage collection manually, see the [documentation within default.settings.php](https://github.com/pantheon-systems/drops-7/blob/master/sites/default/default.settings.php#L314-L336){.external}.
 
 
 ## Geolocation, Referral Tracking, Content Customization, and Cache Segmentation
@@ -63,7 +70,7 @@ For additional details and examples on how to set cookie lifetimes and garbage c
 A site may need to deliver different content to different users without them logging in or starting a full session (either of which will cause them to bypass the page cache entirely). Pantheon recommends doing this on the client side using browser detection, orientation, or features like aspect ratio using HTML5, CSS3, and JavaScript. Advanced developers can also use STYXKEY.
 
 ### Using Modernizr
-[Modernizr](https://modernizr.com/) is a JavaScript library that detects HTML5 and CSS3 features in the user's browser. This will also allow requests to have the benefit of being saved in Varnish and rendering correctly, depending on the requirements. Modernizr is available as a [Drupal module](https://www.drupal.org/project/modernizr) or a [WordPress plugin](https://wordpress.stackexchange.com/questions/62340/loading-modernizr-or-other-javascript-libraries-for-use-in-a-plugin/62362#62362).
+[Modernizr](https://modernizr.com/){.external} is a JavaScript library that detects HTML5 and CSS3 features in the user's browser. This will also allow requests to have the benefit of being saved in Varnish and rendering correctly, depending on the requirements. Modernizr is available as a [Drupal module](https://www.drupal.org/project/modernizr){.external} or a [WordPress plugin](https://wordpress.stackexchange.com/questions/62340/loading-modernizr-or-other-javascript-libraries-for-use-in-a-plugin/62362#62362){.external}.
 
 ### Device Detection
 
@@ -81,16 +88,16 @@ While Google supports multiple mobile site configurations, creating separate mob
 
 More information on mobile site best practices can be found in the Google official developer documentation:
 
-- [Why make a website mobile-friendly?](https://developers.google.com/webmasters/mobile-sites/get-started/why)
-- [What are the top three things I should know when building a site for mobile devices?](https://developers.google.com/webmasters/mobile-sites/get-started/key)
-- [What are the top three mistakes beginners want to avoid?](https://developers.google.com/webmasters/mobile-sites/get-started/mistakes)
+- [Why make a website mobile-friendly?](https://developers.google.com/search/mobile-sites/#why){.external}
+- [What are the top three things I should know when building a site for mobile devices?](https://developers.google.com/search/mobile-sites/get-started#key){.external}
+- [What are the top three mistakes beginners want to avoid?](https://developers.google.com/search/mobile-sites/get-started#mistakes){.external}
 
-A full list of the devices and their support for HTML5 is available on [https://html5test.com](https://html5test.com):
+A full list of the devices and their support for HTML5 is available on [https://html5test.com](https://html5test.com){.external}:
 
- - [Desktop browsers](https://html5test.com/results/desktop.html)
- - [Tablet browsers](https://html5test.com/results/tablet.html)
- - [Mobile browsers](https://html5test.com/results/mobile.html)
- - [Other browsers](https://html5test.com/results/other.html)
+ - [Desktop browsers](https://html5test.com/results/desktop.html){.external}
+ - [Tablet browsers](https://html5test.com/results/tablet.html){.external}
+ - [Mobile browsers](https://html5test.com/results/mobile.html){.external}
+ - [Other browsers](https://html5test.com/results/other.html){.external}
 
 ### Using STYXKEY
 
@@ -124,7 +131,7 @@ In your code, remember to first check whether the incoming request has the `STYX
 
 &#8211; `STYXKEY.tablet`: The only valid characters are a-z, A-Z, 0-9, hyphens ("-"), and underscores ("\_")
 
-&#8211; `tablet-STYXKEY`: The cookie name must start with `STYXKEY
+&#8211; `tablet-STYXKEY`: The cookie name must start with `STYXKEY`
 
 
 ## Varnish Servers

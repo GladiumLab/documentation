@@ -16,14 +16,13 @@ Most website frameworks like Drupal and WordPress use the database to cache inte
 Redis provides an alternative caching backend, taking that work off the database, which is vital for scaling to a larger number of logged-in users. It also provides a number of other nice features for developers looking to use it to manage queues, or do custom caching of their own.
 
 ## Enable Redis
-All plans except for a Personal plan can use Redis. Redis is available to Sandbox plans for developmental purposes, but Redis will not be available going live on a Personal plan.
+All plans except for a Basic plan can use Redis. Redis is available to Sandbox site plans for developmental purposes, but Redis will not be available going live on a Basic plan.
 
 | Plans         | Redis Support <a rel="popover" data-proofer-ignore data-toggle="tooltip" data-html="true" data-content="Available across all environments, including Multidevs."><em class="fa fa-info-circle"></em></a> |
 | ------------- | ------- |
 | Sandbox       | ✓       |
-| Personal      |         |
-| Professional  | ✓       |
-| Business      | ✓       |
+| Basic         |         |
+| Performance   | ✓       |
 | Elite         | ✓       |
 
 <!-- Nav tabs -->
@@ -157,11 +156,6 @@ All plans except for a Personal plan can use Redis. Redis is available to Sandbo
 
         $settings['cache']['default'] = 'cache.backend.redis'; // Use Redis as the default cache.
         $settings['cache_prefix']['default'] = 'pantheon-redis';
-
-        // Always set the fast backend for bootstrap, discover and config, otherwise this gets lost when Redis is enabled.
-        $settings['cache']['bins']['bootstrap'] = 'cache.backend.chainedfast';
-        $settings['cache']['bins']['discovery'] = 'cache.backend.chainedfast';
-        $settings['cache']['bins']['config']    = 'cache.backend.chainedfast';
 
         // Set Redis to not get the cache_form (no performance difference).
         $settings['cache']['bins']['form']      = 'cache.backend.database';
@@ -336,7 +330,7 @@ Fatal error: Class 'Redis_Cache' not found in
 
 It is possible that your `.gitignore` file is not up to date with the most recent version of your CMS. To resolve this, make sure you do not have any pending core updates.
 
-The best and easiest way to update your core is by using Pantheon administration Dashboard. See [Applying Upstream Updates](/docs/upstream-updates) for the steps to update your project's code and get the most recent version of the `.gitignore`.
+The best and easiest way to update your core is by using Pantheon administration Dashboard. See [WordPress and Drupal Core Updates](/docs/core-updates) for the steps to update your project's code and get the most recent version of the `.gitignore`.
 
 ### Fatal Error: require\_once()
 
@@ -408,10 +402,13 @@ activerehashing yes
 ```
 
 ### If Redis hits the upper limit of memory usage, is this logged on Pantheon?
-Yes. There is a `redis.log` file that is available on the Redis container for each environment. You can see where the log files and configuration reside:
+Yes. There is a `redis.log` file that is available on the Redis container for each environment. To access the Redis container, copy the SFTP command line string from the **Connection Info** button, and replace `appserver` with `cacheserver`. You can see where the log files and configuration reside:
 
 ```nohighlight
-$ sftp -o Port=2222 live.81fd3bea-d11b-401a-85e0-07ca0f4ce7cg@cacheserver.live.81fd3bea-d11b-401a-85e0-07ca0f4ce7cg.drush.in Connected to cacheserver.live.81fd3bea-d11b-401a-85e0-07ca0f4ce7cg.drush.in.
+$ sftp -o Port=2222 live.81fd3bea-d11b-401a-85e0-07ca0f4ce7cg@cacheserver.live.81fd3bea-d11b-401a-85e0-07ca0f4ce7cg.drush.in
+Connected to cacheserver.live.81fd3bea-d11b-401a-85e0-07ca0f4ce7cg.drush.in.
+sftp> ls
+certs          chef.stamp     data           lock           logs           metadata.json  redis.conf     tmp
 sftp> ls -la logs/
 -rw-r--r-- 1 11455 11455 40674752 Mar 10 19:46 redis.log
 sftp>

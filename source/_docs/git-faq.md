@@ -1,6 +1,6 @@
 ---
 title: Git FAQs
-description: Answers to commonly asked questions about Git, Drupal 8, Drupal 7, Drupal 6 and Pantheon.
+description: Answers to commonly asked questions about Git, Drupal, WordPress and Pantheon.
 tags: [git]
 categories: []
 contributors: mrfelton
@@ -108,7 +108,7 @@ CONFLICT (delete/modify): scripts/run-tests.sh deleted in HEAD and modified in 7
  git push origin master
  ```
 
-For more details, see [Applying Upstream Updates](/docs/upstream-updates).
+For more details, see [WordPress and Drupal Core Updates](/docs/core-updates).
 ## General Git Questions
 ### Does Pantheon support Git submodules?
 No, Git submodules are not supported at this time. We recommend maintaining custom modules, themes, and/or plugins within separate repositories.

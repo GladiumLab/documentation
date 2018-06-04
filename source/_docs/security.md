@@ -4,9 +4,10 @@ description: Learn how to use the Security tool in the Site Dashboard to keep yo
 tags: [security]
 categories: []
 ---
+
 There are occasions while you are working on your site that you would like to keep your progress hidden from the world as you prepare to go live or make updates.
 
-This can be done by putting a username and password on the environment similar to basic authentication on Apache. Visitors will be prompted to authenticate before the site is served.
+This can be done by putting a username and password on the environment, similar to basic authentication on Apache. Visitors will be prompted to authenticate before the site is served.
 
 <div class="alert alert-info" role="alert">
 <h4 class="info">Note</h4>
@@ -16,7 +17,6 @@ This can be done by putting a username and password on the environment similar t
 ![Lock environment](/source/docs/assets/images/dashboard/lock-environment.png)
 
 ## Password Protect Your Site's Environments
-
 
 You have the ability to password protect any of the available environments.
 
@@ -38,9 +38,26 @@ To verify that everything is working correctly, visit the URL of the environment
 
 ![Locked site example](/source/docs/assets/images/auth-required.png)
 
+If you'd like to customize the lock page that displays beneath the authentication form, you can add a `locked.html` file in your site's root directory.
+
 ## Unlock a Site's Environment
 When you are ready to make your environment public again, click **Security** on your Site Dashboard. Next to Environmental Access, click **Public**.
 This will clear the credentials you entered and make the web accessible resources available without a basic authentication prompt.
+
+## Scripting Site Locking Operations
+Your site may also be locked and unlocked using [Terminus](/docs/terminus).
+
+To lock a site:
+
+```bash
+terminus lock:enable <site>:<env> -- user password
+```
+
+To unlock a site:
+
+```bash
+terminus lock:disable <site>:<env>
+```
 
 ## Troubleshooting
 
@@ -58,11 +75,15 @@ Alternatively, you can resolve 403 errors by using [Terminus](/docs/terminus) to
 </ul>
 
 <!-- Tab panes -->
-<div class="tab-content">
-  <div role="tabpanel" class="tab-pane active" id="d8">
-    <pre><code class="bash hljs">terminus remote:drush &lt;site&gt;.&lt;env&gt; -- pm-uninstall basic_auth -y</code></pre>
-  </div>
-  <div role="tabpanel" class="tab-pane" id="d7">
-    <pre><code class="bash hljs">terminus remote:drush &lt;site&gt;.&lt;env&gt; -- pm-disable basic_auth -y</code></pre>
-  </div>
+<div class="tab-content" markdown="1">
+<div role="tabpanel" class="tab-pane active" id="d8" markdown="1">
+```bash
+terminus remote:drush <site>:<env> -- pm-uninstall basic_auth -y
+```
+</div>
+<div role="tabpanel" class="tab-pane" id="d7" markdown="1">
+```bash
+terminus remote:drush <site>:<env> -- pm-disable basic_auth -y
+```
+</div>
 </div>

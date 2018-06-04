@@ -44,7 +44,9 @@ Reduce page rendering speeds from seconds to sub-seconds by caching content _and
 <!-- Nav tabs -->
 <ul class="nav nav-tabs" role="tablist">
   <li id="globaltab1" role="presentation" class="active"><a href="#global" aria-controls="global" role="tab" data-toggle="tab">Global</a></li>
-  <li id="natab1" role="presentation"><a href="#na" aria-controls="na" role="tab" data-toggle="tab">North America</a></li>
+  <li id="natab1" role="presentation"><a href="#na" aria-controls="na" role="tab" data-toggle="tab">N. America</a></li>
+  <li id="satab1" role="presentation"><a href="#sa" aria-controls="na" role="tab" data-toggle="tab">S. America</a></li>
+  <li id="aftab1" role="presentation"><a href="#af" aria-controls="na" role="tab" data-toggle="tab">Africa</a></li>
   <li id="eutab1" role="presentation"><a href="#eu" aria-controls="eu" role="tab" data-toggle="tab">Europe</a></li>
   <li id="asiatab1" role="presentation"><a href="#asia" aria-controls="asia" role="tab" data-toggle="tab">Asia</a></li>
   <li id="austab1" role="presentation"><a href="#aus" aria-controls="asia" role="tab" data-toggle="tab">Australia & New Zealand</a></li>
@@ -53,22 +55,30 @@ Reduce page rendering speeds from seconds to sub-seconds by caching content _and
 <!-- Tab panes -->
 <div class="tab-content no-border">
 <div role="tabpanel" class="tab-pane active" id="global" markdown="1">
-![Global CDN Map](/source/docs/assets/images/guides/front-end-performance/cdn-map.png){.cdn-map-container}
+![Global CDN Map](/source/docs/assets/images/guides/front-end-performance/CDN-map.png){.cdn-map-container}
 </div>
 <div role="tabpanel" class="tab-pane" id="na" markdown="1">
-![North America CDN Map](/source/docs/assets/images/guides/front-end-performance/cdn-map-na.png){.cdn-map-container}
-<p class="pop-desc">Ashburn, Atlanta, Boston, Chicago, Dallas, Denver, Los Angeles, Miami, Minneapolis, Montreal, New York, San Jose, Seattle, Toronto</p>
+![North America CDN Map](/source/docs/assets/images/guides/front-end-performance/CDN-map-NA.png){.cdn-map-container}
+<p class="pop-desc">Ashburn (x2), Atlanta (x2), Boston, Chicago (x2), Dallas, Denver, Los Angeles (x2), Miami, Minneapolis, Montreal, New York (x2), San Jose (x2), Seattle, Toronto</p>
+</div>
+<div role="tabpanel" class="tab-pane" id="sa" markdown="1">
+![South America CDN Map](/source/docs/assets/images/guides/front-end-performance/CDN-map-SA.png){.cdn-map-container}
+<p class="pop-desc">São Paulo, Rio de Janeiro</p>
+</div>
+<div role="tabpanel" class="tab-pane" id="af" markdown="1">
+![Africa CDN Map](/source/docs/assets/images/guides/front-end-performance/CDN-map-AF.png){.cdn-map-container}
+<p class="pop-desc">Cape Town, Johannesburg</p>
 </div>
 <div role="tabpanel" class="tab-pane" id="eu" markdown="1">
-![Europe CDN Map](/source/docs/assets/images/guides/front-end-performance/cdn-map-eu.png){.cdn-map-container}
-<p class="pop-desc">Amsterdam, Franfurt 2X, London 2X, Madrid, Paris, Stockholm</p>
+![Europe CDN Map](/source/docs/assets/images/guides/front-end-performance/CDN-map-EU.png){.cdn-map-container}
+<p class="pop-desc">Amsterdam, Frankfurt (x2), London (x2), Madrid, Paris, Stockholm</p>
 </div>
 <div role="tabpanel" class="tab-pane" id="asia" markdown="1">
-![Asia CDN Map](/source/docs/assets/images/guides/front-end-performance/cdn-map-asia.png){.cdn-map-container}
-<p class="pop-desc">Dubai, Hong Kong, Osaka, Singapore, Tokyo</p>
+![Asia CDN Map](/source/docs/assets/images/guides/front-end-performance/CDN-map-Asia.png){.cdn-map-container}
+<p class="pop-desc">Dubai, Hong Kong, Osaka, Singapore, Tokyo (x2)</p>
 </div>
 <div role="tabpanel" class="tab-pane" id="aus" markdown="1">
-![Australia CDN Map](/source/docs/assets/images/guides/front-end-performance/cdn-map-aus.png){.cdn-map-container}
+![Australia CDN Map](/source/docs/assets/images/guides/front-end-performance/CDN-map-AUZ.png){.cdn-map-container}
 <p class="pop-desc">Auckland, Brisbane, Melbourne, Perth, Sydney, Wellington</p>
 </div>
 </div>
@@ -89,7 +99,7 @@ The following describes the expected cache behavior for sites running the Panthe
 <dd markdown="1">This header should include a `max-age` that is the maximum number of seconds that the cache can be kept.</dd>
 <br />
 <dt>surrogate-key-raw</dt>
-<dd>Metadata including the the content IDs for what was displayed on this page. This metadata instructs this page to be cleared from cache when any of those posts are saved again.</dd>
+<dd>Metadata including the the content IDs for what was displayed on this page. This metadata instructs this page to be cleared from cache when any of those posts are saved again. This header is only present when you specifically add a debugging header (`Pantheon-Debug:1`) to your request. You can use a browser extension to add the debugging header (here are some extensions for [Chrome](https://chrome.google.com/webstore/search/modify%20header){.external} and [Firefox](https://addons.mozilla.org/en-US/firefox/search/?q=modify+header){.external}).</dd>
 <br />
 <dt>x-served-by</dt>
 <dd>This header indicates which POP your response came from. Our primary infrastructure is in the Midwest of the United States so the first item you will probably see on this list will include "ORD" for the O'Hare airport in Chicago. If you're physically located in Austin you will also see DFW, indicating the response went from the primary datacenter to a cached copy in Chicago to a cached copy in Dallas.</dd>
@@ -482,4 +492,4 @@ Other considerations:
 - Avoid mobile-specific subdomains and use responsive web design techniques.
 - A DNS service provider such as [Cloudflare](https://support.cloudflare.com/hc/en-us/articles/200170536-How-do-I-redirect-all-visitors-to-HTTPS-SSL-){.external} may allow speedier redirects in some circumstances, but it’s still faster not to redirect at all.
 - Avoid several chained redirects that make small changes such as redirecting to HTTPS, adding or removing WWW, or adding a trailing slash. Instead, [redirect to a primary domain](/docs/guides/launch/redirects/) that has all of these standardized.
-- Pantheon doesn’t read changes to the `.htaccess` file or support NGINX customization, so redirections via those methods will not work. For details, see [Using PHP as an htaccess Alternative](/docs/htaccess/).
+- Pantheon doesn’t read changes to the `.htaccess` file or support NGINX customization, so redirections via those methods will not work. For details, see [Configure Redirects](/docs/redirects/#php-vs-htaccess).

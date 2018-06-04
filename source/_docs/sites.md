@@ -16,7 +16,7 @@ The Team tab allows you to change the site owner; add supporting agencies; and a
 
 ##Settings
 ### Plan and Billing
-Here you can select or change your plan and payment method. For more information, see [Select a Plan](/docs/select-plan/).
+Here you can select or change your plan and payment method. For more information, see [Manage Plans in the Site Dashboard](/docs/site-plan/).
 
 ### Add-Ons
 Pantheon offers several add-ons to help you build dynamic sites. These include [Apache Solr](/docs/solr/) and [Redis](/docs/redis/).
@@ -40,7 +40,7 @@ To find a link to your site's upstream, click **Settings**, then **About Site**.
 The site default PHP version is applied to every environment unless a PHP version is explicitly selected for each environment. For more information, see [Upgrading PHP Versions](/docs/php-versions/).
 
 ## Support
-If you need assistance, our expert Customer Support team is here to help make building and managing your sites easier. You can [contact support](/docs/getting-support) from your Dashboard.
+If you need assistance, our expert Customer Support team is here to help make building and managing your sites easier. You can [contact support](/docs/support) from your Dashboard.
 
 ##Security Indicator
 This indicates if your site is public or locked. You can set a common password for accessing this environment to add an extra layer of security to prevent unwanted access to this environment. Learn more about [Security on the Pantheon Dashboard](/docs/security/).
@@ -84,7 +84,7 @@ Learn more about the [Pantheon Workflow](/docs/pantheon-workflow/).
 All fatal PHP errors are shown on this tab. If any are found, recommendations are made. Learn more about [PHP Errors and Exceptions](/docs/php-errors/).
 <div class="alert alert-info">
 <h4 class="info">Note</h4>
-<p>This is not intended to replace reviewing your error logs. Learn more about [accessing all your server logs](/docs/logs/).</p>
+<p markdown="1">This is not intended to replace reviewing your error logs. Learn more about [accessing all your server logs](/docs/logs/).</p>
 </div>
 
 ## Domains / HTTPS

@@ -58,12 +58,15 @@ WordPress does not use PHP session cookies; however, some themes and plugins do.
 ### Session and Cookie Lifetime
 Pantheon allows developers to control the length of sessions. There are two pieces: the lifetime of the cookie and the lifetime of the session itself.
 
-Session cookie lifetime is configured using the [session.cookie\_lifetime](https://secure.php.net/manual/en/session.configuration.php#ini.session.cookie-lifetime) PHP setting. If set to 0, the cookie is deleted when the user closes their browser. Session cookie lifetime is set to 2,000,000 seconds in Drupal's default.settings.php and in Pantheon's PHP configuration.
+Session cookie lifetime is configured using the [session.cookie\_lifetime](https://secure.php.net/manual/en/session.configuration.php#ini.session.cookie-lifetime) PHP setting. If set to 0, the cookie is deleted when the user closes their browser. Session cookie lifetime is set to 2,000,000 seconds in by default in Drupal and in Pantheon's PHP configuration.
 
-Drupal's [session garbage collection](https://api.drupal.org/api/drupal/includes%21session.inc/function/_drupal_session_garbage_collection/7) uses the [session.gc\_maxlifetime](https://secure.php.net/manual/en/session.configuration.php#ini.session.gc-maxlifetime) PHP setting when deleting expired sessions from the sessions database table. Session max lifetime is set to 200,000 seconds in Drupal's default.settings.php and in Pantheon's PHP configuration.
+Drupal's session garbage collection uses the [session.gc\_maxlifetime](https://secure.php.net/manual/en/session.configuration.php#ini.session.gc-maxlifetime) PHP setting when deleting expired sessions from the sessions database table. Session max lifetime is set to 200,000 seconds in by default in Drupal and in Pantheon's PHP configuration.
 
-For additional details and examples on how to set cookie lifetimes and garbage collection manually, see ​​the [documentation within default.settings.php](https://github.com/pantheon-systems/drops-7/blob/master/sites/default/default.settings.php#L314-L336).
+#### Drupal 7
+Session cookie lifetime and session garbage collection can be overriden in your `settings.php` file. For additional details and examples on how to set cookie lifetimes and garbage collection manually, see ​​the [documentation within default.settings.php](https://github.com/pantheon-systems/drops-7/blob/master/sites/default/default.settings.php#L314-L336).
 
+#### Drupal 8
+Session cookie lifetime and session garbage collection can be configured as `session.storage.options` parameters in a services.yml file. To override core session behavior, create a copy of the services.yml file (see [Creating a services.yml File for Drupal 8](/docs/services-yml)), and adjust the `gc_maxlifetime` and `cookie_lifetime` values as needed.
 
 ## Geolocation, Referral Tracking, Content Customization, and Cache Segmentation
 

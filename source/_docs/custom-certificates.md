@@ -1,6 +1,8 @@
 ---
 title: Custom Certificates on the Global CDN
 description: @ari-gold FEEEED ME
+contributors: [ari, alexfornuto]
+
 ---
 
 A white glove Custom Certificate Concierge Service in now available and **limited to  Legacy SSL Customers with a Pantheon contract**, including **Enterprise**, **EDU+**, **Pantheon One**, **Elite** and **Reseller** customers. If your site was purchased online via the Site Dashboard and you’d like access, [let us know](@ari-gold FEEEEEED ME), and we’ll let you know if it becomes available.

@@ -1,11 +1,12 @@
 ---
 title: Custom Certificates on the Global CDN
-description: @ari-gold FEEEED ME
+description: For contract customers who need to retain custom TLS certificates.
 contributors: [ari, alexfornuto]
-
 ---
 
-A white glove Custom Certificate Concierge Service in now available and **limited to  Legacy SSL Customers with a Pantheon contract**, including **Enterprise**, **EDU+**, **Pantheon One**, **Elite** and **Reseller** customers. If your site was purchased online via the Site Dashboard and you’d like access, [let us know](@ari-gold FEEEEEED ME), and we’ll let you know if it becomes available.
+<div class="alert alert-success" role="alert">
+  <p markdown="1">A white glove Custom Certificate Concierge Service in now available and **limited to  Legacy SSL Customers with a Pantheon contract**, including **Enterprise**, **EDU+**, **Pantheon One**, **Elite** and **Reseller** customers. If your site was purchased online via the Site Dashboard and you’d like access, [let us know](@ari-gold FEEEEEED ME), and we’ll let you know if it becomes available.</p>
+</div>
 
 ## Eligibility
 
@@ -27,8 +28,30 @@ If you have a requirement for a custom, dedicated certificate, you can now bring
 
 1. [Open a support ticket](/docs/support/#ticket-support) with the certificate details required to generate a **Certificate Signing Request** (CSR). Use as few certificates as possible. Domains from multiple environments and sites can be combined, with up to 100 [**Subject Alternative Names**](https://en.wikipedia.org/wiki/Subject_Alternative_Name){.external} (SANs) per certificate.
 
-2. Pantheon support will provide you with the CSR file, to pass on to your **Certificate Authority** (CA).
 
+    <div class="panel panel-drop panel-guide" id="accordion">
+    <div class="panel-heading panel-drop-heading">
+    <a class="accordion-toggle panel-drop-title collapsed" data-toggle="collapse" data-parent="#accordion" data-proofer-ignore data-target="#unique-anchor">
+      <h3 class="info panel-title panel-drop-title" style="cursor:pointer;"><span style="line-height:.9" class="glyphicons glyphicons-wrench"></span> CSR Details</h3>
+    </a>
+    </div>
+    <div id="unique-anchor" class="collapse" markdown="1" style="padding:10px;">
+    ### CSR Details Required {.info}
+
+    When requesting a CSR file, you must provide Pantheon Support with the following information:
+
+     - Common Name (e.g. `example.com`)
+     - DNS Names (e.g. `example.com`:`www.example.com`:`blog.example.com`:`dev.example.com`)
+     - Organization (e.g. `ACME, Inc.`)
+     - Organizational Unit \[optional\] (e.g. `Engineering`)
+     - Country (e.g. `US`)
+     - Locality (e.g. `San Francisco`)
+     - State / Province (e.g. `California`)
+     - Emails addresses \[optional\] (e.g. `someone@example.com`:`admin@example.com`)
+    </div>
+    </div>
+
+2. Pantheon support will provide you with the CSR file, to pass on to your **Certificate Authority** (CA).
 
 3. Once you have a set of certificates from the CA, send us:
 
@@ -37,15 +60,23 @@ If you have a requirement for a custom, dedicated certificate, you can now bring
 
     Be sure to send these as separate files, not a "chained cert".
 
-4. Update your [DNS](/docs/dns/) records, including `A`, `AAAA`, and [CAA](#add-caa-records) records.
+4. [Test](#test-before-going-live) your new records using tools like `dig` (optional, but strongly recommended).
 
-
-5. Test your new records using tools like `dig` (optional, but strongly recommended).
+5. Update your [DNS](/docs/dns/) records, including `A`, `AAAA`, and [CAA](#add-caa-records) records.
 
 
 ### Test Before Going Live
 
-Test production domain(s) before updating DNS by overriding DNS on your local computer from your local `hosts` file. For non-production domains, test on any environment (Dev, Test, Live or Multidev), just make sure to include the non-production domains on your certificate.
+Test production domain(s) before updating DNS by overriding DNS on your local computer from your local `hosts` file:
+
+```bash
+192.0.2.5       example.com
+```
+
+In the example `hosts` file above, replace `192.0.2.5` with the IP address provided by Pantheon in the **<span class="glyphicons glyphicons-global"></span>  Domains / HTTPS** tab of your Site Dashboard, and `example.com` with your domain name.
+
+
+For non-production domains, test on any environment (Dev, Test, Live or Multidev), just make sure to include the non-production domains on your certificate.
 
 ### Add CAA Records
 
@@ -60,7 +91,6 @@ To help generate CAA records, please see the free online tool: <https://sslmate.
 
 |                                                                       | Legacy                    | Global CDN with Let's Encrypt   | Global CDN with a Custom Certificate  |
 |:--------------------------------------------------------------------- |:------------------------- |:------------------------------- |:--------------------------------------|
-| **Price**                                                             | $60/month per environment | Free                            |                                       |
 | **Certificate Type**                                                  | Bring your own            | Shared, issued by Let's Encrypt | Bring your own                        |
 | **Renewal**                                                           | Self-managed (up to you)  | Automatic                       | Self-managed (up to you)              |
 | **Inbound IP**                                                        | Static (unique)           | Static (shared)                 | Static (shared)                       |

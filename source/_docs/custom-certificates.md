@@ -3,7 +3,7 @@ title: Custom Certificates on the Global CDN
 description: For contract customers who need to retain custom TLS certificates.
 contributors: [ari, alexfornuto]
 earlyaccess: true
-earlynote: A white glove Custom Certificate Concierge Service in now available and limited to  Legacy SSL Customers with a Pantheon contract, including Enterprise, EDU+, Pantheon One, Elite and Reseller customers.
+earlynote: A white glove Custom Certificate Concierge Service in now available and limited to  Legacy SSL Customers with a Pantheon contract, including Enterprise, EDU+, Pantheon One, Elite, and Reseller customers.
 ---
 
 ## Eligibility

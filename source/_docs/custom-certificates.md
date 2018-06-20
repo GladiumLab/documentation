@@ -60,7 +60,7 @@ If you have a requirement for a custom, dedicated certificate, you can now bring
 
 4. [Test Before Going Live](#test-before-going-live) (optional, recommended)
 
-5. [Disable Let's Encrypt by adding CAA DNS records](#disable-lets-encrypt-with-caa-records-required)
+5. Disable Let's Encrypt by adding CAA DNS records TODO: fix link #disable-lets-encrypt-with-caa-records-required
 
 6. Update `A` and `AAAA` records provided by Pantheon support.
 

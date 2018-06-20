@@ -65,7 +65,7 @@ If you have a requirement for a custom, dedicated certificate, you can now bring
 6. Update `A` and `AAAA` records provided by Pantheon support.
 
 
-### Test Before Going Live
+## Test Before Going Live
 
 Test production domain(s) before updating DNS by overriding DNS on your local computer from your local `hosts` file:
 
@@ -78,7 +78,7 @@ In the example `hosts` file above, replace `192.0.2.5` with the IP address provi
 
 For non-production domains, test on any environment (Dev, Test, Live or Multidev), just make sure to include the non-production domains on your certificate. We are happy to provide a new CSR if your original CSR and certificate did not initially non-production domains.
 
-### Disable Let's Encrypt with CAA Records (Required)
+## Disable Let's Encrypt with CAA Records (Required)
 
 A **Certification Authority Authorization** (CAA) record is used to specify which certificate authorities (CAs) are allowed to issue certificates for a domain. In order to ensure your custom certificate is served for all traffic, you must prevent Let’s Encrypt from issuing certificates. You have two options to prevent Let’s Encrypt from issuing certificates for domains on your custom certificate:
 

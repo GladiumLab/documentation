@@ -60,7 +60,9 @@ If you have a requirement for a custom, dedicated certificate, you can now bring
 
 4. [Test Before Going Live](#test-before-going-live) (optional, recommended)
 
-5. Update DNS including [CAA](#add-caa-records) to disable Let's Encrypt, `A`, and `AAAA` records.
+5. [Disable Let's Encrypt by adding CAA DNS records](#disable-lets-encrypt-with-caa-records-required)
+
+6. Update `A` and `AAAA` records provided by Pantheon support.
 
 
 ### Test Before Going Live
@@ -151,5 +153,5 @@ We will provide you with DNS information required to complete the upgrade, which
 
 ## See also
 - [Pantheon Global CDN](/docs/global-cdn)
-- [HTTPS on Pantheon's Global CDN](/docs/https/HTTPS)
+- [HTTPS on Pantheon's Global CDN](/docs/https/)
 - [Introduction to Domain Name Services](/docs/dns/)
